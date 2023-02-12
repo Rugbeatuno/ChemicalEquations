@@ -12,12 +12,12 @@ export const initElementData = () => {
     });
 
   // polyatomic ions
-  fetch("../assets/polyatomic_ions.json")
-    .then((Response) => Response.json())
-    .then((data) => {
-      let elements = data.ions;
-      for (let e of elements) {
-        symbolToData.set(e.symbol, e);
-      }
-    });
+  //   fetch("../assets/polyatomic_ions.json")
+  //     .then((Response) => Response.json())
+  //     .then((data) => {
+  //       let elements = data.ions;
+  //       for (let e of elements) {
+  //         symbolToData.set(e.symbol, e);
+  //       }
+  //     });
 };

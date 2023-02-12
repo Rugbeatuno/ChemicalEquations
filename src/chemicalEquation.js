@@ -10,6 +10,14 @@ export class ChemicalEquation {
   expandParenthesis(partialEq) {
     let locs = [];
     let offset = 0;
+
+    let coefficient = partialEq.charAt(0);
+    if (isNumeric(coefficient)) {
+      coefficient = Number.parseInt(coefficient);
+    } else {
+      coefficient = 1;
+    }
+
     for (let i = 0; i < partialEq.length; i++) {
       if (partialEq.charAt(i) === ")") {
         locs.push(i);
@@ -27,17 +35,25 @@ export class ChemicalEquation {
       }
       let eq = partialEq.slice(idx + 1, parenthesis);
 
-      console.log(this.getElementPositions(eq));
       for (let pos of this.getElementPositions(eq)) {
         let numberPos = pos[1] + offset;
-        console.log(numberPos);
         if (isNumeric(eq.charAt(numberPos))) {
-          eq = eq.replaceAt(numberPos, eq.charAt(numberPos) * multiplier);
+          let subscript = eq.charAt(numberPos).toString();
+          idx = numberPos + 1;
+          // find as many coefficients as possible
+          while (isNumeric(eq.charAt(idx))) {
+            subscript += eq.charAt(idx);
+            idx++;
+          }
+          let newSubscript = subscript * multiplier;
+          eq = eq.replace(
+            pos[0].symbol + subscript,
+            pos[0].symbol + newSubscript
+          );
+          offset +=
+            newSubscript.toString().length - subscript.toString().length;
         } else {
-          eq =
-            eq.slice(0, numberPos) +
-            multiplier.toString() +
-            eq.slice(numberPos);
+          eq = eq.replace(pos[0].symbol, pos[0].symbol + multiplier);
           offset += multiplier.toString().length;
         }
       }
@@ -49,32 +65,22 @@ export class ChemicalEquation {
 
   getElementPositions(partialEq) {
     let idx = [];
-    let currentString = partialEq.charAt(0);
-    let offset = 0;
-    for (let i = 0; i < partialEq.length; i++) {
-      let newChar = partialEq.charAt(i);
-      if (i === partialEq.length - 1) {
-        currentString = newChar;
-      }
-      // this tells you that you have reached the end of an element or have reached it coefficeints
-      if (
-        "0123456789+()".includes(newChar) ||
-        newChar === newChar.toUpperCase() ||
-        i === partialEq.length - 1
-      ) {
-        console.log(currentString, newChar);
-        if (symbolToData.has(currentString)) {
-          if (i === 0) {
-            offset = 1;
-          }
-          idx.push([symbolToData.get(currentString), i + offset]);
-        }
-        currentString = "";
-      }
-      if (!"0123456789+()".includes(newChar)) {
-        currentString += newChar;
+    // 2 letter symbols
+    let eq = partialEq.toString();
+    for (let i = 0; i < partialEq.length - 1; i++) {
+      let pair = partialEq.charAt(i) + partialEq.charAt(i + 1);
+      if (symbolToData.has(pair)) {
+        idx.push([symbolToData.get(pair), i + 2]);
+        eq = eq.replace(pair, "");
       }
     }
+    // 1 letter symbols
+    for (let i = 0; i < eq.length; i++) {
+      if (symbolToData.has(eq.charAt(i))) {
+        idx.push([symbolToData.get(eq.charAt(i)), i + 1]);
+      }
+    }
+
     return idx;
   }
 
@@ -100,8 +106,8 @@ export class ChemicalEquation {
 
   parseReactants(reactants) {
     reactants = reactants.replace(" ", "");
-    // console.log(this.expandParenthesis(reactants));
-    console.log(this.getElementPositions(reactants));
+    console.log(this.expandParenthesis(reactants));
+    // console.log(this.getElementPositions(reactants));
     let elements = reactants.split("+");
     // console.log(elements);
   }
