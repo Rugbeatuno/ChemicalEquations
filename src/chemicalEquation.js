@@ -7,9 +7,11 @@ export class ChemicalEquation {
     this.products = [];
   }
 
-  expandParenthesis(partialEq) {
-    let locs = [];
-    let offset = 0;
+  countElements(partialEq, existingCount) {
+    let count = new Map();
+    if (existingCount !== null) {
+      count = existingCount;
+    }
 
     let coefficient = partialEq.charAt(0);
     if (isNumeric(coefficient)) {
@@ -17,7 +19,6 @@ export class ChemicalEquation {
     } else {
       coefficient = 1;
     }
-    console.log(coefficient);
 
     // find parenthesis subscripts
     let parenthesisLower = 1000;
@@ -36,7 +37,11 @@ export class ChemicalEquation {
     }
 
     for (let pos of this.getElementPositions(partialEq)) {
-      let subscriptPos = pos[1] + offset;
+      let subscriptPos = pos[1];
+      let key = pos[0].symbol;
+      if (!count.has(key)) {
+        count.set(key, 0);
+      }
       if (isNumeric(partialEq.charAt(subscriptPos))) {
         let subscript = partialEq.charAt(subscriptPos).toString();
         let idx = subscriptPos + 1;
@@ -47,33 +52,26 @@ export class ChemicalEquation {
         }
         let newSubscript = subscript * coefficient;
         if (
-          subscriptPos > parenthesisLower + offset &&
-          subscriptPos < parenthesisHigher + offset
+          subscriptPos > parenthesisLower &&
+          subscriptPos < parenthesisHigher
         ) {
           newSubscript *= parenthesisSubscript;
         }
-        partialEq = partialEq.replace(
-          pos[0].symbol + subscript,
-          pos[0].symbol + newSubscript
-        );
-        offset += newSubscript.toString().length - subscript.toString().length;
+
+        count.set(key, count.get(key) + newSubscript);
       } else {
         if (
-          subscriptPos > parenthesisLower + offset &&
-          subscriptPos < parenthesisHigher + offset
+          subscriptPos > parenthesisLower &&
+          subscriptPos < parenthesisHigher
         ) {
-          partialEq = partialEq.replace(
-            pos[0].symbol,
-            pos[0].symbol + parenthesisSubscript * coefficient
-          );
-          offset += (parenthesisSubscript * coefficient).toString().length;
+          count.set(key, count.get(key) + parenthesisSubscript * coefficient);
+        } else {
+          count.set(key, count.get(key) + coefficient);
         }
       }
     }
-    partialEq = partialEq.replace("(", "");
-    partialEq = partialEq.replace(`)${parenthesisSubscript}`, "");
 
-    console.log(partialEq);
+    console.log(count);
   }
 
   separateElementsFromIons() {}
@@ -101,29 +99,9 @@ export class ChemicalEquation {
     return idx;
   }
 
-  countElements(partialEq) {
-    partialEq = partialEq.replace(" ", "");
-    let elements = new Map();
-    let currentCoefficient = 1;
-    // 2Ag(NO)3
-
-    // split on +
-    for (let eq of partialEq.split("+")) {
-      // expand any parenthesis
-      // find all closing parenthesis
-      let parenthesisLocs = [];
-
-      for (let i in partialEq.length - 1) {
-        let charPair = partialEq.charAt(i) + partialEq.charAt(i + 1);
-        if (symbolToData.has(charPair)) {
-        }
-      }
-    }
-  }
-
   parseReactants(reactants) {
     reactants = reactants.replace(" ", "");
-    console.log(this.expandParenthesis(reactants));
+    console.log(this.countElements(reactants, null));
     // console.log(this.getElementPositions(reactants));
     let elements = reactants.split("+");
     // console.log(elements);
