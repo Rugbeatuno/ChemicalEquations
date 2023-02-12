@@ -1,0 +1,18 @@
+Acetate
+CH3CO2-
+or
+CH3COODichromate Cr2O7 2- Hypobromite BrO- Perrhenate ReO4-
+Ammonium NH4 + Dihydrogen
+Phosphate H2PO4- Hypochlorite ClO- Phosphate PO4 3-
+Arsenate AsO4 3- Dihydrogen
+Phosphite H2PO3- Hypoiodite IO- Phosphite PO33-
+Arsenite AsO33- Dithionate S2O62- Iodate IO3- Plumbate PbO32-
+Azide N3 - Dithionite S2O4 2- Iodite IO2- Plumbite PbO2 2-
+Borate BO3 2- Ferricyanide Fe(CN)63- Isocyanate NCO- Rhenate ReO42-
+Bromate BrO3 - Ferrocyanide Fe(CN)64- Manganate MnO42- Selenate SeO42-
+Bromite BrO2 - Fulminate CNO - Nitrate NO3- Selenite SeO32-
+Carbonate CO3 2- Hydrazide N2H3- Nitrite NO2- Silicate SiO32-
+Chlorate ClO3- Hydrogen
+arsenate HAsO42- Oxalate C2O42- Stannate SnO32-
+Chlorite ClO2- Hydrogen
+carbonate

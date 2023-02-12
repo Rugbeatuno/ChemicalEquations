@@ -1,0 +1,373 @@
+{
+  "ions": [
+    {
+      "symbol": "CH3CO2",
+      "charge": "-",
+      "name": "Acetate"
+    },
+    {
+      "symbol": "NH4",
+      "charge": "+",
+      "name": "Ammonium"
+    },
+    {
+      "symbol": "AsO4",
+      "charge": "3-",
+      "name": "Arsenate"
+    },
+    {
+      "symbol": "AsO3",
+      "charge": "3-",
+      "name": "Arsenite"
+    },
+    {
+      "symbol": "N3",
+      "charge": "-",
+      "name": "Azide"
+    },
+    {
+      "symbol": "BO3",
+      "charge": "2-",
+      "name": "Borate"
+    },
+    {
+      "symbol": "BrO3",
+      "charge": "-",
+      "name": "Bromate"
+    },
+    {
+      "symbol": "BrO2",
+      "charge": "-",
+      "name": "Bromite"
+    },
+    {
+      "symbol": "CO3",
+      "charge": "2-",
+      "name": "Carbonate"
+    },
+    {
+      "symbol": "ClO3",
+      "charge": "-",
+      "name": "Chlorate"
+    },
+    {
+      "symbol": "ClO2",
+      "charge": "-",
+      "name": "Chlorite"
+    },
+    {
+      "symbol": "CrO4",
+      "charge": "2-",
+      "name": "Chromate"
+    },
+    {
+      "symbol": "CrO2",
+      "charge": "-",
+      "name": "Chromite"
+    },
+    {
+      "symbol": "C6H5O7",
+      "charge": "3-",
+      "name": "Citrate"
+    },
+    {
+      "symbol": "OCN",
+      "charge": "-",
+      "name": "Cyanate"
+    },
+    {
+      "symbol": "CN",
+      "charge": "-",
+      "name": "Cyanide"
+    },
+    {
+      "symbol": "Cr2O7",
+      "charge": "2-",
+      "name": "Dichromate"
+    },
+    {
+      "symbol": "H2PO4",
+      "charge": "-",
+      "name": "Dihydrogen Phosphate"
+    },
+    {
+      "symbol": "H2PO3",
+      "charge": "-",
+      "name": "Dihydrogen Phosphite"
+    },
+    {
+      "symbol": "S2O6",
+      "charge": "2-",
+      "name": "Dithionate"
+    },
+    {
+      "symbol": "S2O4",
+      "charge": "2-",
+      "name": "Dithionite"
+    },
+
+    {
+      "symbol": "Fe(CN)6",
+      "charge": "3-",
+      "name": "Ferricyanide"
+    },
+
+    {
+      "symbol": "Fe(CN)6",
+      "charge": "4-",
+      "name": "Ferrocyanide"
+    },
+
+    {
+      "symbol": "CNO",
+      "charge": "-",
+      "name": "Fulminate"
+    },
+
+    {
+      "symbol": "N2H3",
+      "charge": "-",
+      "name": "Hydrazide"
+    },
+
+    {
+      "symbol": "HAsO4",
+      "charge": "2-",
+      "name": "Hydrogen Arsenate"
+    },
+
+    {
+      "symbol": "HCO3",
+      "charge": "-",
+      "name": "Hydrogen Carbonate"
+    },
+
+    {
+      "symbol": "HPO4",
+      "charge": "2-",
+      "name": "Hydrogen Phosphate"
+    },
+
+    {
+      "symbol": "HPO3",
+      "charge": "2-",
+      "name": "Hydrogen Phosphite"
+    },
+
+    {
+      "symbol": "HSO4",
+      "charge": "-",
+      "name": "Hydrogen Sulfate"
+    },
+
+    {
+      "symbol": "HSO3",
+      "charge": "-",
+      "name": "Hydrogen Sulfite"
+    },
+
+    {
+      "symbol": "OH",
+      "charge": "-",
+      "name": "Hydroxide"
+    },
+
+    {
+      "symbol": "BrO",
+      "charge": "-",
+      "name": "Hypobromite"
+    },
+
+    {
+      "symbol": "ClO",
+      "charge": "-",
+      "name": "Hypochlorite"
+    },
+
+    {
+      "symbol": "IO",
+      "charge": "-",
+      "name": "Hypoiodite"
+    },
+
+    {
+      "symbol": "IO3",
+      "charge": "-",
+      "name": "Iodate"
+    },
+
+    {
+      "symbol": "IO2",
+      "charge": "-",
+      "name": "Iodite"
+    },
+
+    {
+      "symbol": "NCO",
+      "charge": "-",
+      "name": "Isocyanate"
+    },
+
+    {
+      "symbol": "MnO4",
+      "charge": "2-",
+      "name": "Manganate"
+    },
+
+    {
+      "symbol": "NO3",
+      "charge": "-",
+      "name": "Nitrate"
+    },
+
+    {
+      "symbol": "NO2",
+      "charge": "-",
+      "name": "Nitrite"
+    },
+
+    {
+      "symbol": "C2O4",
+      "charge": "2-",
+      "name": "Oxalate"
+    },
+
+    {
+      "symbol": "O3",
+      "charge": "-",
+      "name": "Ozonide"
+    },
+
+    {
+      "symbol": "BrO4",
+      "charge": "-",
+      "name": "Perbromate"
+    },
+
+    {
+      "symbol": "ClO4",
+      "charge": "-",
+      "name": "Perchlorate"
+    },
+
+    {
+      "symbol": "IO4",
+      "charge": "-",
+      "name": "Periodate"
+    },
+
+    {
+      "symbol": "MnO4",
+      "charge": "-",
+      "name": "Permanganate"
+    },
+
+    {
+      "symbol": "O2",
+      "charge": "2-",
+      "name": "Peroxide"
+    },
+
+    {
+      "symbol": "ReO4",
+      "charge": "-",
+      "name": "Perrhenate"
+    },
+
+    {
+      "symbol": "PO4",
+      "charge": "3-",
+      "name": "Phosphate"
+    },
+
+    {
+      "symbol": "PO3",
+      "charge": "3-",
+      "name": "Phosphite"
+    },
+
+    {
+      "symbol": "PbO3",
+      "charge": "2-",
+      "name": "Plumbate"
+    },
+
+    {
+      "symbol": "PbO2",
+      "charge": "2-",
+      "name": "Plumbite"
+    },
+
+    {
+      "symbol": "ReO4",
+      "charge": "2-",
+      "name": "Rhenate"
+    },
+
+    {
+      "symbol": "SeO4",
+      "charge": "2-",
+      "name": "Selenate"
+    },
+
+    {
+      "symbol": "SeO3",
+      "charge": "2-",
+      "name": "Selenite"
+    },
+
+    {
+      "symbol": "SiO3",
+      "charge": "2-",
+      "name": "Silicate"
+    },
+
+    {
+      "symbol": "SnO3",
+      "charge": "2-",
+      "name": "Stannate"
+    },
+
+    {
+      "symbol": "SnO2",
+      "charge": "2-",
+      "name": "Stannite"
+    },
+
+    {
+      "symbol": "SO4",
+      "charge": "2-",
+      "name": "Sulfate"
+    },
+
+    {
+      "symbol": "SO3",
+      "charge": "2-",
+      "name": "Sulfite"
+    },
+
+    {
+      "symbol": "O2",
+      "charge": "-",
+      "name": "Superoxide"
+    },
+
+    {
+      "symbol": "SCN",
+      "charge": "-",
+      "name": "Thiocyanate"
+    },
+
+    {
+      "symbol": "S2O3",
+      "charge": "2-",
+      "name": "Thiosulfate"
+    },
+
+    {
+      "symbol": "WO4",
+      "charge": "2-",
+      "name": "Tungstate"
+    }
+  ]
+}
