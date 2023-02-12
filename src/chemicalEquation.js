@@ -17,53 +17,69 @@ export class ChemicalEquation {
     } else {
       coefficient = 1;
     }
+    console.log(coefficient);
 
+    // find parenthesis subscripts
+    let parenthesisLower = 1000;
+    let parenthesisHigher = -1000;
+    let parenthesisSubscript = 1;
     for (let i = 0; i < partialEq.length; i++) {
       if (partialEq.charAt(i) === ")") {
-        locs.push(i);
+        let idx = i;
+        while (partialEq.charAt(idx) !== "(") {
+          idx--;
+        }
+        parenthesisLower = idx + 1;
+        parenthesisHigher = i + 1;
+        parenthesisSubscript = Number.parseInt(partialEq.charAt(i + 1));
       }
     }
-    for (let parenthesis of locs) {
-      let multiplier = Number.parseInt(partialEq.charAt(parenthesis + 1));
-      if (multiplier === 0) {
-        continue;
-      }
 
-      let idx = parenthesis;
-      while (partialEq.charAt(idx) !== "(") {
-        idx--;
-      }
-      let eq = partialEq.slice(idx + 1, parenthesis);
-
-      for (let pos of this.getElementPositions(eq)) {
-        let numberPos = pos[1] + offset;
-        if (isNumeric(eq.charAt(numberPos))) {
-          let subscript = eq.charAt(numberPos).toString();
-          idx = numberPos + 1;
-          // find as many coefficients as possible
-          while (isNumeric(eq.charAt(idx))) {
-            subscript += eq.charAt(idx);
-            idx++;
-          }
-          let newSubscript = subscript * multiplier;
-          eq = eq.replace(
-            pos[0].symbol + subscript,
-            pos[0].symbol + newSubscript
+    for (let pos of this.getElementPositions(partialEq)) {
+      let subscriptPos = pos[1] + offset;
+      if (isNumeric(partialEq.charAt(subscriptPos))) {
+        let subscript = partialEq.charAt(subscriptPos).toString();
+        let idx = subscriptPos + 1;
+        // find as many subscripts as possible, 2 digit
+        while (isNumeric(partialEq.charAt(idx))) {
+          subscript += partialEq.charAt(idx);
+          idx++;
+        }
+        let newSubscript = subscript * coefficient;
+        if (
+          subscriptPos > parenthesisLower + offset &&
+          subscriptPos < parenthesisHigher + offset
+        ) {
+          newSubscript *= parenthesisSubscript;
+        }
+        partialEq = partialEq.replace(
+          pos[0].symbol + subscript,
+          pos[0].symbol + newSubscript
+        );
+        offset += newSubscript.toString().length - subscript.toString().length;
+      } else {
+        if (
+          subscriptPos > parenthesisLower + offset &&
+          subscriptPos < parenthesisHigher + offset
+        ) {
+          partialEq = partialEq.replace(
+            pos[0].symbol,
+            pos[0].symbol + parenthesisSubscript * coefficient
           );
-          offset +=
-            newSubscript.toString().length - subscript.toString().length;
-        } else {
-          eq = eq.replace(pos[0].symbol, pos[0].symbol + multiplier);
-          offset += multiplier.toString().length;
+          offset += (parenthesisSubscript * coefficient).toString().length;
         }
       }
-      console.log(eq);
     }
+    partialEq = partialEq.replace("(", "");
+    partialEq = partialEq.replace(`)${parenthesisSubscript}`, "");
+
+    console.log(partialEq);
   }
 
   separateElementsFromIons() {}
 
   getElementPositions(partialEq) {
+    let offset = 0;
     let idx = [];
     // 2 letter symbols
     let eq = partialEq.toString();
@@ -72,12 +88,13 @@ export class ChemicalEquation {
       if (symbolToData.has(pair)) {
         idx.push([symbolToData.get(pair), i + 2]);
         eq = eq.replace(pair, "");
+        offset += 2;
       }
     }
     // 1 letter symbols
     for (let i = 0; i < eq.length; i++) {
       if (symbolToData.has(eq.charAt(i))) {
-        idx.push([symbolToData.get(eq.charAt(i)), i + 1]);
+        idx.push([symbolToData.get(eq.charAt(i)), i + 1 + offset]);
       }
     }
 
