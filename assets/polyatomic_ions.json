@@ -263,7 +263,7 @@
     },
 
     {
-      "symbol": "O2",
+      "symbol": "H2O2",
       "charge": "2-",
       "name": "Peroxide"
     },
@@ -347,7 +347,7 @@
     },
 
     {
-      "symbol": "O2",
+      "symbol": "O2 IGNORE THIS",
       "charge": "-",
       "name": "Superoxide"
     },

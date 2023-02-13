@@ -1,0 +1,72 @@
+body {
+    border: none;
+    margin: 0px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: rgb(230, 230, 230);
+}
+
+.constants {
+    width: 200px;
+    height: 100vh;
+    border: black 1px solid;
+    padding: 10px;
+}
+
+.element {
+    font-weight: 600;
+}
+
+.mediumAnswer {
+    color: green;
+}
+.mediumAnswer2 {
+    color: blue;
+}
+.finalAnswer {
+    color: goldenrod;
+    font-weight: 400;
+}
+
+.menu {
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(35, 159, 35);
+    color: white;
+    padding: 3px;
+    font-size: 1em;
+}
+
+.sliderContainer {
+    width: 100%;
+    height: 50px;
+    margin: 5px;
+}
+
+.sliderLabel {
+    font-weight: 700;
+}
+
+.equationInput {
+    position: absolute;
+    height: 50px;
+    width: 600px;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: none;
+    background-color: rgb(200, 200, 200);
+    font-size: 2em;
+    padding: 15px;
+    border-radius: 15px;
+}
+
+.mathSolution {
+    position: absolute;
+    height: 75px;
+    width: 600px;
+    top: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2em;
+    font-weight: 300;
+}

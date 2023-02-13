@@ -2,7 +2,36 @@ import { roundToSigFigs } from "./utils.js";
 import { roundToDecimalPlaces } from "./utils.js";
 import { countSigFigs } from "./utils.js";
 import { initElementData, symbolToData } from "./elements.js";
-import { ChemicalEquation } from "./chemicalEquation.js";
+import { parseReactants } from "./chemicalEquation.js";
+
+/*
+todo 
+average atomic mass
+percent comp
+nuclear decay
+isotopes (abundance)
+wavelength, frequency
+energy of photons
+electron config
+bohr model
+nomenclature
+half life
+ionic bonds, lewis dot, charges, formulas
+molecular geometry
+balancing chemical equations
+types of reactions
+states of matter
+solubility rules
+net ionic equations spec
+dimentional analysis temp
+stoichemetry
+molar mass
+avogadros numebr
+emperical formula
+prediction chemical reactions
+limiting reagents
+percent yeild
+*/
 
 const init = () => {
   let reactants = document.createElement("input");
@@ -19,7 +48,7 @@ const init = () => {
 
   reactants.addEventListener("input", () => {
     displayEquation(reactants.value, displayedEquation);
-    let reactantEquation = new ChemicalEquation(reactants.value, "");
+    parseReactants(reactants.value);
   });
 };
 
