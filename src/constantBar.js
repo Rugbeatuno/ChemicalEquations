@@ -87,7 +87,7 @@ export const initBar = (callbackOnUpdate) => {
     })
   );
   bar.appendChild(
-    createSlider("Significant Figures:", [0, 10, 3], (val) => {
+    createSlider("Significant Figures:", [1, 10, 3], (val) => {
       constantRoundingSigfigs = val;
       callbackOnUpdate();
     })
@@ -114,7 +114,7 @@ export const initBar = (callbackOnUpdate) => {
     })
   );
   bar.appendChild(
-    createSlider("Significant Figures:", [0, 10, 3], (val) => {
+    createSlider("Significant Figures:", [1, 10, 3], (val) => {
       answerRoundingSigfigs = val;
       callbackOnUpdate();
     })

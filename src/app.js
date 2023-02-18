@@ -2,7 +2,8 @@ import { roundToSigFigs } from "./utils.js";
 import { roundToDecimalPlaces } from "./utils.js";
 import { countSigFigs } from "./utils.js";
 import { initElementData, symbolToData } from "./elements.js";
-import { parseReactants } from "./chemicalEquation.js";
+import { getElementCharge, parseReactants } from "./chemicalEquation.js";
+import { determineReactionType } from "./predictEquation.js";
 
 /*
 todo 
@@ -48,7 +49,9 @@ const init = () => {
 
   reactants.addEventListener("input", () => {
     displayEquation(reactants.value, displayedEquation);
-    parseReactants(reactants.value);
+    determineReactionType(reactants.value);
+    // console.log(getElementCharge(symbolToData.get("Cu"), "Cu(NO3)2"));
+    // parseReactants(reactants.value);
   });
 };
 

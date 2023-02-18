@@ -1,18 +1,18 @@
 import { acids, polyatomicIons, symbolToData } from "./elements.js";
-import { countElements } from "./chemicalEquation.js";
+import { countElements, isMetal, isPolyatomicIon } from "./chemicalEquation.js";
 import { isNumeric } from "./utils.js";
 import { PREFIXES, VOWELS } from "./constants.js";
-
-const findIonsAcidsElements = (partialEq) => {
+export const findIonsAcidsElements = (partialEq) => {
   let count = new Map();
 
   for (let ion of new Map([...acids, ...polyatomicIons])) {
     let symbol = ion[0];
     let symbol2 = symbol;
     let number = symbol.charAt(symbol.length - 1);
-    if (isNumeric(number)) {
-      symbol2 = `(${symbol.slice(0, -1)})${number}`;
-    }
+    // allow parenthesis
+    // if (isNumeric(number)) {
+    //   symbol2 = `(${symbol.slice(0, -1)})${number}`;
+    // }
 
     if (partialEq.includes(symbol)) {
       partialEq = partialEq.replace(symbol, "");
@@ -25,40 +25,6 @@ const findIonsAcidsElements = (partialEq) => {
   }
   countElements(partialEq, count);
   return count;
-};
-
-export const isPolyatomicIon = (obj) => {
-  for (let i of polyatomicIons) {
-    if (obj["symbol"] === i[0]) {
-      return true;
-    }
-  }
-  return false;
-};
-
-export const isAcid = (obj) => {
-  for (let i of acids) {
-    if (obj["symbol"] === i[0]) {
-      return true;
-    }
-  }
-  return false;
-};
-
-export const isBinaryElement = (obj) => {
-  for (let i of symbolToData) {
-    if (obj["symbol"] === i[0]) {
-      return true;
-    }
-  }
-  return false;
-};
-
-export const isMetal = (obj) => {
-  if (isBinaryElement(obj) && obj["category"].includes(" metal")) {
-    return true;
-  }
-  return false;
 };
 
 export const orderElements = (elements, partialEq) => {
@@ -152,6 +118,4 @@ export const findName = (partialEq) => {
       return ionicFormula(parts, partialEq);
     }
   }
-  // covalent compound
-  // polyatomic compound
 };
