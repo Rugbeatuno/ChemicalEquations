@@ -46,7 +46,6 @@ const init = () => {
   let displayedEquation = document.createElement("h2");
   displayedEquation.className = "equation";
   document.body.appendChild(displayedEquation);
-
   reactants.addEventListener("input", () => {
     displayEquation(reactants.value, displayedEquation);
     determineReactionType(reactants.value);

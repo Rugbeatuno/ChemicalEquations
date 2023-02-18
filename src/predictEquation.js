@@ -1,4 +1,4 @@
-import { balanceEquation } from "./balancer/bad.js";
+import { balanceEquation } from "./balancer/balancer.js";
 import {
   countElements,
   isMetal,
@@ -104,9 +104,9 @@ const isSynthesisReaction = (reactantEq) => {
     isWater(reactant2) &&
     reactant2.size === 2
   ) {
-    console.log(`${getMetal(reactant1)["symbol"]}OH`);
+    console.log(`${reactantEq}->${getMetal(reactant1)["symbol"]}(OH)2`);
     return [
-      balanceEquation(`${reactantEq}->${getMetal(reactant1)["symbol"]}(OH)`),
+      balanceEquation(`${reactantEq}->${getMetal(reactant1)["symbol"]}(OH)2`),
       SYNTHESIS_C,
     ];
   }

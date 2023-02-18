@@ -198,7 +198,7 @@ export const getMetal = (elements) => {
       return i;
     }
   }
-  return null;
+  return false;
 };
 
 export const hasNonmetal = (elements) => {
