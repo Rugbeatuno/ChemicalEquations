@@ -4,6 +4,8 @@ import {
   resolveCompounds,
 } from "./utilities/runner.js";
 import { solve } from "./linearSolve.js";
+import { roundToDecimalPlaces } from "../utils.js";
+import { ROMAN_NUMERALS } from "../constants.js";
 
 export const balanceEquation = (equation) => {
   const equationParts = equation.split("->");
@@ -72,12 +74,29 @@ export const balanceEquation = (equation) => {
     solution = solution.map((n) => Math.round(n * 2));
   }
 
-  // divide by two until everything is fully divised
-  while (solution.every((n) => n % 2 === 0)) {
-    solution = solution.map((n) => Math.round(n / 2));
+  if (solution.length > mergedCompounds.length) {
+    solution.splice(solution.length - 2, 1);
   }
+  // divide by two until everything is fully divised
+  // corner case [9007199254740991, 18014398509481980, 9007199254740990, 9007199254740990, 1, 9007199254740992]
 
-  console.log(solution, mergedCompounds);
+  if (Math.max(...solution) > 1000) {
+    solution = solution.filter((e) => e != 1);
+
+    let list = [];
+    for (let i of solution) {
+      list.push(i / Math.max(...solution));
+    }
+    while (Math.min(...list) < 1) {
+      for (let i = 0; i < list.length; i++) {
+        list[i] = list[i] * 2;
+      }
+    }
+    for (let i = 0; i < list.length; i++) {
+      list[i] = Number.parseInt(roundToDecimalPlaces(list[i], 0));
+    }
+    solution = list;
+  }
   let newSolution = [];
   for (let i of solution) {
     if (i !== 0) {
@@ -85,8 +104,17 @@ export const balanceEquation = (equation) => {
     }
   }
   solution = newSolution;
+
+  console.log(solution);
+  while (solution.every((n) => n % 2 === 0)) {
+    solution = solution.map((n) => Math.round(n / 2));
+  }
+  // console.log(solution, mergedCompounds);
   // set the coefficients of the compounds to the solution
   for (let i = 0; i < solution.length; i++) {
+    if (i >= mergedCompounds.length) {
+      continue;
+    }
     mergedCompounds[i].setCoefficent(solution[i]);
   }
 
@@ -94,8 +122,8 @@ export const balanceEquation = (equation) => {
     countElements(reactantsCompounds),
     countElements(productCompounds)
   );
-
-  if (balance === 1) {
+  if (balance === 1 || balance === 0.5) {
+    // if (balance === 1) {
     // console.log(`Success! (took ${new Date().getTime() - startTime}ms)`);
 
     // recreate the equation
@@ -114,8 +142,14 @@ export const balanceEquation = (equation) => {
       `Failed to find a solution. (took ${new Date().getTime() - startTime}ms)`,
       "\nTry increasing the max coefficient, or the equation might not be solvable.\n"
     );
+    console.log(equation);
+    return null;
   }
 };
 
+// console.log(balanceEquation("Na2O+H2O->NaOH"));
 // balanceEquation("CaO+H2O->Ca(OH)2");
+// balanceEquation("CaCO3+HCl->CaCl2+H2O+CO2");
 // balanceEquation("2H2 + O2 -> 2H2O");
+// balanceEquation("2H2 + O2 -> 2H2O+Cl");
+// balanceEquation("Al+Fe(NO3)2->Al(NO3)3+Fe");

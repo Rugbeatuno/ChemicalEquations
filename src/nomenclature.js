@@ -26,6 +26,30 @@ export const findIonsAcidsElements = (partialEq) => {
   countElements(partialEq, count);
   return count;
 };
+export const findIonsElements = (partialEq) => {
+  let count = new Map();
+
+  for (let ion of new Map([...polyatomicIons])) {
+    let symbol = ion[0];
+    let symbol2 = symbol;
+    let number = symbol.charAt(symbol.length - 1);
+    // allow parenthesis
+    // if (isNumeric(number)) {
+    //   symbol2 = `(${symbol.slice(0, -1)})${number}`;
+    // }
+
+    if (partialEq.includes(symbol)) {
+      partialEq = partialEq.replace(symbol, "");
+      count.set(ion[1], 1);
+    }
+    if (partialEq.includes(symbol2)) {
+      partialEq = partialEq.replace(symbol2, "");
+      count.set(ion[1], 1);
+    }
+  }
+  countElements(partialEq, count);
+  return count;
+};
 
 export const orderElements = (elements, partialEq) => {
   let keys = Array.from(elements.keys());

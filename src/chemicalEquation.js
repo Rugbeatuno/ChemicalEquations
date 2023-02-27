@@ -4,6 +4,7 @@ import {
   COMMON_POSITIVE_IONS,
   GROUP_CHARGES,
   MULTIVALENT_METALS,
+  ROMAN_NUMERALS,
 } from "./constants.js";
 
 import { findName, findIonsAcidsElements } from "./nomenclature.js";
@@ -96,6 +97,7 @@ export const getElementPositions = (partialEq) => {
   }
   // 1 letter symbols
   // str = str.slice(0, 3) + str.slice(4);
+  offset = 0;
   for (let i = 0; i < eq.length; i++) {
     if (symbolToData.has(eq.charAt(i))) {
       let searches = 0;
@@ -112,8 +114,9 @@ export const getElementPositions = (partialEq) => {
           isNumeric(nextPos) ||
           nextPos === nextPos.toUpperCase()
         ) {
-          idx.push([symbolToData.get(eq.charAt(i)), pos + 1]);
+          idx.push([symbolToData.get(eq.charAt(i)), pos + 1 + offset]);
           originalEq = originalEq.replace(eq.charAt(i), "");
+          offset++;
           break;
         }
         searches++;
@@ -135,15 +138,23 @@ export const hasPolyatomicIon = (partialEq) => {
 
 export const parseReactants = (reactants) => {
   reactants = reactants.replace(" ", "");
-  // console.log(countElements(reactants, null));
+  console.log(countElements(reactants, null));
   // console.log(getElementPositions(reactants));
-  console.log(findName(reactants));
+  // console.log(findName(reactants));
   let elements = reactants.split("+");
   // console.log(elements);
 };
 
 export const isPolyatomicIon = (obj) => {
   for (let i of polyatomicIons) {
+    if (obj["symbol"] === i[0]) {
+      return true;
+    }
+  }
+  return false;
+};
+export const isAcid = (obj) => {
+  for (let i of acids) {
     if (obj["symbol"] === i[0]) {
       return true;
     }
@@ -200,6 +211,30 @@ export const getMetal = (elements) => {
   }
   return false;
 };
+export const getNonmetal = (elements) => {
+  for (let i of elements.keys()) {
+    if (isNonmetal(i)) {
+      return i;
+    }
+  }
+  return false;
+};
+export const getPolyatomicIon = (partialEq) => {
+  for (let i of polyatomicIons) {
+    if (partialEq.includes(i[0])) {
+      return i[1];
+    }
+  }
+  return null;
+};
+export const getAcid = (partialEq) => {
+  for (let i of acids) {
+    if (partialEq.includes(i[0])) {
+      return i[1];
+    }
+  }
+  return null;
+};
 
 export const hasNonmetal = (elements) => {
   for (let i of elements.keys()) {
@@ -217,6 +252,10 @@ export const hasHalide = (elements) => {
     }
   }
   return false;
+};
+
+export const isHalide = (obj) => {
+  return ["F", "Cl", "Br", "I", "At"].includes(obj["symbol"]);
 };
 
 export const isWater = (elements) => {
@@ -280,14 +319,33 @@ export const crissCross = (
   }
 
   // criss cross
+  if (!isPolyatomicIon(element1) && isPolyatomicIon(element2)) {
+    if (cation[1]) {
+      return `${cation[0]["symbol"]}${anion[1]}(${anion[0]["symbol"]})${cation[1]}`;
+    }
+    return `${cation[0]["symbol"]}${anion[1]}${anion[0]["symbol"]}${cation[1]}`;
+  }
   return `${cation[0]["symbol"]}${anion[1]}${anion[0]["symbol"]}${cation[1]}`;
+};
+
+export const promptUser = (element) => {
+  let possibleCharges = MULTIVALENT_METALS.get(element["symbol"]);
+  let prompt = window.prompt(
+    `Please enter the charge of ${element["symbol"]}`,
+    possibleCharges
+  );
+  if (person === null || person === "") {
+    return null;
+  } else {
+    return Number.parseInt(prompt);
+  }
 };
 
 export const getElementCharge = (element, partialEq) => {
   if (partialEq === null) {
     partialEq = "";
   }
-
+  console.log(element);
   if (GROUP_CHARGES.has(element["group"])) {
     return GROUP_CHARGES.get(element["group"]);
   }
@@ -295,6 +353,10 @@ export const getElementCharge = (element, partialEq) => {
   // always known charges for ions
   if (COMMON_POSITIVE_IONS.has(element["symbol"])) {
     return COMMON_POSITIVE_IONS.get(element["symbol"]);
+  }
+
+  if (polyatomicIons.has(element["symbol"])) {
+    return parseCharge(polyatomicIons.get(element["symbol"])["charge"]);
   }
   // multivalent metals
   // first look for another element, or if elements == 2
@@ -310,6 +372,9 @@ export const getElementCharge = (element, partialEq) => {
         multivalentMetal = i;
       }
     }
+    // if (otherMetal === null) {
+    //   promptUser
+    // }
     if (!hasPolyatomicIon(partialEq)) {
       for (let charge of MULTIVALENT_METALS.get(element["symbol"])) {
         let crissCrossed = crissCross(
@@ -335,23 +400,61 @@ export const getElementCharge = (element, partialEq) => {
           [otherMetal, parseCharge(otherMetal["charge"])]
         );
         // console.log(crissCrossed, partialEq);
-        partialEq = partialEq.replace("(", "");
-        partialEq = partialEq.replace(")", "");
+        // partialEq = partialEq.replace("(", "");
+        // partialEq = partialEq.replace(")", "");
         // partialEq += parseCharge(Math.abs(otherMetal["charge"]));
+        console.log(crissCrossed, partialEq);
         if (crissCrossed === partialEq) {
           return charge;
         }
       }
     }
   }
+  console.log("welp we failed");
 };
 
-const parseCharge = (strCharge) => {
+export const parseCharge = (strCharge) => {
   if (strCharge === "-") {
     return -1;
   }
   if (strCharge === "+") {
     return 1;
   }
+  if (strCharge.includes("-")) {
+    strCharge = strCharge.replace("-", "");
+    return Number.parseInt(strCharge) * -1;
+  }
+  if (strCharge.includes("+")) {
+    strCharge = strCharge.replace("+", "");
+    return Number.parseInt(strCharge);
+  }
   return Number.parseInt(strCharge);
+};
+
+export const formatCoefficient = (charge) => {
+  if (charge === 1) {
+    return "";
+  }
+  return charge;
+};
+export const formatCharge = (charge) => {
+  if (charge === 1) {
+    return "+";
+  }
+  if (charge === 2) {
+    return "2+";
+  }
+  if (charge === 3) {
+    return "3+";
+  }
+  if (charge === -1) {
+    return "-";
+  }
+  if (charge === -2) {
+    return "2-";
+  }
+  if (charge === -3) {
+    return "3-";
+  }
+  return "";
 };

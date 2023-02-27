@@ -1,5 +1,10 @@
 import { initElementData } from "./elements.js";
 import { countElements } from "./chemicalEquation.js";
+import { init } from "./initSingleInput.js";
+import { initBar } from "./constantBar.js";
+
+initBar();
+init("Type Elements Na Pb F Cl Ag Au Al Mg O");
 
 let input = document.getElementsByClassName("equationInput")[0];
 input.addEventListener("input", () => {

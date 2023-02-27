@@ -1,6 +1,9 @@
 import { countElements } from "./chemicalEquation.js";
 import { initBar, roundAnswer, roundConstant } from "./constantBar.js";
 import { initElementData } from "./elements.js";
+import { init } from "./initSingleInput.js";
+
+init("Ag(NO)3 + H2O");
 
 let input = document.getElementsByClassName("equationInput")[0];
 input.addEventListener("input", () => {

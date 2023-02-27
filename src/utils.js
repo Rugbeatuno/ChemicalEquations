@@ -1,3 +1,10 @@
+import { determineReactionType } from "./predictEquation.js";
+import { AQUEOUS, SOLID, formatState } from "./solubility.js";
+
+export const STATE = 0;
+export const CHARGE = 1;
+export const STATE_AND_CHARGE = 2;
+
 // 1. All non-zero numbers ARE significant. The number 33.2 has THREE significant figures because all of the digits present are non-zero.
 // 2. Zeros between two non-zero digits ARE significant. 2051 has FOUR significant figures. The zero is between a 2 and a 5.
 // 3. Leading zeros are NOT significant. They're nothing more than "place holders." The number 0.54 has only TWO significant figures. 0.0032 also has TWO significant figures. All of the zeros are leading.
@@ -90,6 +97,77 @@ export const isNumeric = (str) => {
   ); // ...and ensure strings of whitespace fail
 };
 
+export const HTMLFormatEquation = (equation) => {
+  // equation = equation.replace(" ", "");
+  let str = "";
+  for (let i = 0; i < equation.length; i++) {
+    let char = equation.charAt(i);
+    if (isNumeric(char)) {
+      // coefficient not subscript
+      if (i === 0 || ["+", ">"].includes(equation.charAt(i - 1))) {
+        str += char;
+      } else {
+        str += `<sub>${char}</sub>`;
+      }
+    } else {
+      str += char;
+    }
+  }
+  str = str.replace("+", " + ");
+  str = str.replace("->", " -> ");
+  return str;
+};
+
+export const predictAndBalance = () => {
+  let reactants = document.getElementById("reactants").value;
+  let predicted = determineReactionType(reactants);
+  if (predicted) {
+    let val = predicted[0].split("->")[1];
+    document.getElementById("products").value = val;
+    document.getElementById("products").disabled = true;
+  }
+};
+
+export const highlightCoefficients = (balancedEquation) => {
+  let alreadyBalanced = true;
+  let highlightedEquation = "";
+  for (let i = 0; i < balancedEquation.length; i++) {
+    let char = balancedEquation.charAt(i);
+    if (isNumeric(char)) {
+      if (
+        i === 0 ||
+        ["+", ">"].includes(balancedEquation.charAt(i - 1)) ||
+        isNumeric(balancedEquation.charAt(i - 1))
+      ) {
+        highlightedEquation += `<span class="finalAnswer">${char}</span>`;
+        alreadyBalanced = false;
+      } else {
+        highlightedEquation += char;
+      }
+    } else {
+      highlightedEquation += char;
+    }
+  }
+  return [highlightedEquation, alreadyBalanced];
+};
+
+export const colorState = (state) => {
+  if (state === AQUEOUS) {
+    return `<sub class="state aq">(aq)</sub>`;
+  } else {
+    return `<sub class="state ${formatState(state)
+      .replace("(", "")
+      .replace(")", "")}">${formatState(state)}</sub>`;
+  }
+};
+
+export const addStateAndOrCharge = (partialEq, mode) => {
+  if (mode === STATE) {
+  } else if (mode === CHARGE) {
+  } else if (mode === STATE_AND_CHARGE) {
+  }
+};
+
 String.prototype.replaceAt = function (index, replacement) {
   return (
     this.substring(0, index) +
@@ -97,3 +175,5 @@ String.prototype.replaceAt = function (index, replacement) {
     this.substring(index + replacement.length)
   );
 };
+
+// console.log(HTMLFormatEquation("CaCO3+2HCl->CaCl2+H2O+CO2"));

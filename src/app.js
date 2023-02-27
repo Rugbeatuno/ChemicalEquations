@@ -1,10 +1,14 @@
-import { roundToSigFigs } from "./utils.js";
+import { HTMLFormatEquation, roundToSigFigs } from "./utils.js";
 import { roundToDecimalPlaces } from "./utils.js";
 import { countSigFigs } from "./utils.js";
-import { initElementData, symbolToData } from "./elements.js";
-import { getElementCharge, parseReactants } from "./chemicalEquation.js";
+import { initElementData, polyatomicIons, symbolToData } from "./elements.js";
+import {
+  crissCross,
+  getElementCharge,
+  parseReactants,
+} from "./chemicalEquation.js";
 import { determineReactionType } from "./predictEquation.js";
-
+import { getState } from "./solubility.js";
 /*
 todo 
 average atomic mass
@@ -49,7 +53,12 @@ const init = () => {
   reactants.addEventListener("input", () => {
     displayEquation(reactants.value, displayedEquation);
     determineReactionType(reactants.value);
-    // console.log(getElementCharge(symbolToData.get("Cu"), "Cu(NO3)2"));
+    console.log(getState("CO2"));
+    // console.log(getElementCharge(symbolToData.get("Fe"), "Fe(OH)3"));
+    // console.log(getElementCharge(polyatomicIons.get("SO4"), "H2SO4"));
+    // console.log(
+    // crissCross([symbolToData.get("Al"), 3], [polyatomicIons.get("NO3"), 1])
+    // );
     // parseReactants(reactants.value);
   });
 };
@@ -63,7 +72,7 @@ const displayEquation = (str, equation) => {
     }
   }
 
-  equation.innerHTML = string;
+  equation.innerHTML = HTMLFormatEquation(string);
 };
 
 init();

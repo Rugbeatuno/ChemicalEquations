@@ -6,6 +6,7 @@ let constantUsingSigfigs = true;
 let answerRoundingDecimal = 2;
 let answerRoundingSigfigs = 3;
 let answerUsingSigfigs = true;
+export let predictEquation = false;
 
 const createSlider = (label, range, callback) => {
   // rounding sliders
@@ -30,6 +31,30 @@ const createSlider = (label, range, callback) => {
   });
 
   return sliderSetting;
+};
+
+const createSwitch = (label, callback) => {
+  let container = document.createElement("div");
+  container.className = "sliderContainer";
+  let text = document.createElement("label");
+  text.innerHTML = label;
+  text.className = "sliderLabel";
+  container.appendChild(text);
+
+  let l = document.createElement("label");
+  l.className = "switch";
+  let checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  l.appendChild(checkbox);
+  let span = document.createElement("span");
+  span.className = "slider2 round";
+  l.appendChild(span);
+  container.appendChild(l);
+
+  checkbox.addEventListener("input", () => {
+    callback(checkbox.checked);
+  });
+  return container;
 };
 
 const createMenu = (label, options, callback) => {
@@ -116,6 +141,13 @@ export const initBar = (callbackOnUpdate) => {
   bar.appendChild(
     createSlider("Significant Figures:", [1, 10, 3], (val) => {
       answerRoundingSigfigs = val;
+      callbackOnUpdate();
+    })
+  );
+
+  bar.appendChild(
+    createSwitch("Predict Products & Balance Equation (beta)", (val) => {
+      predictEquation = val;
       callbackOnUpdate();
     })
   );

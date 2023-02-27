@@ -6,6 +6,11 @@
       "name": "Acetate"
     },
     {
+      "symbol": "C2H3O2",
+      "charge": "-",
+      "name": "Acetate"
+    },
+    {
       "symbol": "NH4",
       "charge": "+",
       "name": "Ammonium"
@@ -233,7 +238,7 @@
     },
 
     {
-      "symbol": "O3",
+      "symbol": "O3IGNORE THIS",
       "charge": "-",
       "name": "Ozonide"
     },

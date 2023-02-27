@@ -40,3 +40,5 @@ GROUP_CHARGES.set(13, 3);
 GROUP_CHARGES.set(15, -3);
 GROUP_CHARGES.set(16, -2);
 GROUP_CHARGES.set(17, -1);
+
+export const ROMAN_NUMERALS = ["(I)", "(II)", "(III)", "(IV)", "(V)"];
